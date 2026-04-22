@@ -1,0 +1,51 @@
+@startuml Diagram_Proyecto
+entity "clientes"{
+*id_cliente:INT AUTO_INCREMENT (PK)
+*nombre:VARCHAR(90)
+}
+
+entity "freelancers" {
+*id_freelancer:INT AUTO_INCREMENT (PK)
+*nombre:VARCHAR(90)
+*especialidad:VARCHAR(120)
+*fecha_registro:DATE NOT NULL
+*tarifa_hora:DECIMAL NOT NULL
+}
+
+entity "proyectos"{
+*id_proyecto:INT AUTO_INCREMENT (PK)
+*id_cliente:INT NOT NULL (FK)
+*titulo:VARCHAR(140)
+*descripcion:TEXT
+*presupuesto_maximo:DECIMAL NOT NULL
+*fecha_limite:DATE NOT NULL
+}
+
+entity "postulaciones"{
+*id_postulacion:INT AUTO_INCREMENT (PK)
+*id_freelancer: INT NOT NULL(FK)
+*id_proyecto:INT NOT NULL(FK)
+*propuesta_economica:DECIMAL NOT NULL
+*mensaje:TEXT
+*fecha_postulacion:DATE NOT NULL
+}
+
+entity "asignaciones"{
+*id_asignacion:INT AUTO_INCREMENT (PK)
+*id_postulacion:INT NOT NULL(FK)
+*fecha_asignacion:DATE
+}
+
+entity "pagos"{
+*id_pago:INT AUTO_INCREMET (PK)
+*id_proyecto:INT NOT NULL(FK)
+*monto_pagado:DECIMAL
+*fecha_pago:DATE
+}
+
+clientes ||--o{proyectos   :"publica"
+proyectos ||--o{postulaciones :"recibe"
+freelancers ||--o{postulaciones:"realiza"
+postulaciones ||--o|asignaciones :"genera"
+proyectos ||--o{pagos :"tiene"
+@enduml
